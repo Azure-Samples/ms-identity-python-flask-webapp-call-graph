@@ -1,57 +1,40 @@
 # Project Name
 
-(short, 1-3 sentenced, description of the project)
-
+Call graph
 ## Features
 
-This project framework provides the following features:
-
-* Feature 1
-* Feature 2
-* ...
+1. obtains access token
+1. calls graph
+1. displays users
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
+Python 3.7+
 
 ### Installation
+```
+git clone
+git submodule init
+pip install -r requirements.txt
 
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
+```
 
 ### Quickstart
-(Add steps to get up and running quickly)
 
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
-
+```
+    export FLASK_APP=call_ms_graph.py
+    export FLASK_ENV=development
+    export FLASK_DEBUG=1
+    export FLASK_RUN_CERT=adhoc
+    flask run
+```
 
 ## Demo
 
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
+TBA
 
 ## Resources
 
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+TBA
