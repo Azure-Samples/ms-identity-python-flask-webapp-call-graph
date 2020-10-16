@@ -1,0 +1,3 @@
+[submodule "ms-identity-python-utilities"]
+	path = ms_id_web_submodule
+	url = ssh://git@github.com/azure-samples/ms-identity-python-utilities

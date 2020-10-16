@@ -1,3 +1,11 @@
+flask_session/
+# aad.b2c.config.ini
+# aad.config.ini
+
+.DS_STORE
+.vscode/
+/.vs
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
