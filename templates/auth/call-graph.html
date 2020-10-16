@@ -10,6 +10,6 @@
         or <a class="btn btn-success p-1" href="{{ url_for('call_ms_graph') }}">Call MS Graph API</a>
     {% else %}
         Use the button on the top right to sign in. <br/>
-        Attempts to get your <a href="{{ url_for('token_details') }}">ID Token Details</a> or <a href="{{ url_for('call_ms_graph') }}">Call MS Graph API</a> should result in a 401 error.
+        Attempts to get your <a href="{{ url_for('token_details') }}">ID Token Details</a> should result in a 401 error.
     {% endif %}
 {% endblock %}

@@ -1,5 +1,4 @@
-import os, logging
-
+import os, logging, requests
 from flask import Flask, render_template
 from flask_session import Session
 from pathlib import Path
@@ -16,7 +15,7 @@ Do not run using this configuration in production.
 
 LINUX/OSX - in a terminal window, type the following:
 =======================================================
-    export FLASK_APP=authenticate_users_b2c.py
+    export FLASK_APP=call_ms_graph.py
     export FLASK_ENV=development
     export FLASK_DEBUG=1
     export FLASK_RUN_CERT=adhoc
@@ -24,7 +23,7 @@ LINUX/OSX - in a terminal window, type the following:
 
 WINDOWS - in a command window, type the following:
 ====================================================
-    set FLASK_APP=authenticate_users_b2c.py
+    set FLASK_APP=call_ms_graph.py
     set FLASK_ENV=development
     set FLASK_DEBUG=1
     set FLASK_RUN_CERT=adhoc
@@ -53,7 +52,7 @@ def create_app(name='call_ms_graph', root_path=Path(__file__).parent, config_dic
     app.register_error_handler(NotAuthenticatedError, lambda x: (render_template('auth/401.html'), x.code))
     
     adapter = FlaskContextAdapter(app) # ms identity web for python: instantiate the flask adapter
-    ms_identity_web = IdentityWebPython(AADConfig(file_path='aad.b2c.config.ini'), adapter) # then instantiate ms identity web for python:
+    ms_identity_web = IdentityWebPython(AADConfig(file_path='aad.config.ini'), adapter) # then instantiate ms identity web for python:
     # the auth endpoints are: sign_in, redirect, sign_out, post_sign-out, edit_profile
 
     @app.route('/')
@@ -66,6 +65,15 @@ def create_app(name='call_ms_graph', root_path=Path(__file__).parent, config_dic
     def token_details():
         app.logger.info("token_details: user is authenticated, will display token details")
         return render_template('auth/token.html')
+
+    @app.route("/call_ms_graph")
+    @ms_identity_web.login_required
+    def call_ms_graph():
+        ms_identity_web.acquire_token_silently(scopes=['User.ReadBasic.All']) # TODO : detect error type in here, and respond accordingly automatically - e.g. interactive auth.
+        graph_data = requests.get('https://graph.microsoft.com/v1.0/users',
+                                headers={'Authorization': 'Bearer ' + ms_identity_web.id_data._access_token},
+                                ).json()
+        return render_template('auth/call-graph.html', result=graph_data)
 
     return app
 
