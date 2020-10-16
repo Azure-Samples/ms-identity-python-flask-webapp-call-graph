@@ -69,11 +69,13 @@ def create_app(name='call_ms_graph', root_path=Path(__file__).parent, config_dic
     @app.route("/call_ms_graph")
     @ms_identity_web.login_required
     def call_ms_graph():
-        ms_identity_web.acquire_token_silently(scopes=['User.ReadBasic.All']) # TODO : detect error type in here, and respond accordingly automatically - e.g. interactive auth.
-        graph_data = requests.get('https://graph.microsoft.com/v1.0/users',
+        ms_identity_web.acquire_token_silently(scopes=['User.ReadBasic.All']) 
+        # TODO : detect error type in ms-id-web, and respond accordingly automatically - e.g. interactive auth.
+        # TODO : also detect insufficient privilege - i.e., user is authenticated but has not consented to the requested scope
+        results = requests.get('https://graph.microsoft.com/v1.0/users',
                                 headers={'Authorization': 'Bearer ' + ms_identity_web.id_data._access_token},
                                 ).json()
-        return render_template('auth/call-graph.html', result=graph_data)
+        return render_template('auth/call-graph.html', results=results)
 
     return app
 
