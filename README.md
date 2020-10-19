@@ -16,7 +16,9 @@ Python 3.7+
 ### Installation
 ```
 git clone
-git submodule init
+cd project-root-directory
+git checkout idgsam
+git pull --recurse-submodules
 pip install -r requirements.txt
 
 ```
