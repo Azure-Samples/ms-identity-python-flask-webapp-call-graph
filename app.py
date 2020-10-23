@@ -1,9 +1,12 @@
-import os, logging, requests
-from flask import Flask, render_template
+import os, logging
+
+from functools import wraps
+from flask import Flask, Blueprint, session, redirect, url_for, current_app, render_template, request
+from flask.sessions import SessionInterface
 from flask_session import Session
 from pathlib import Path
 
-import app_config as dev_config
+import app_config
 from ms_identity_web import IdentityWebPython
 from ms_identity_web.adapters import FlaskContextAdapter
 from ms_identity_web.errors import NotAuthenticatedError
@@ -15,7 +18,7 @@ Do not run using this configuration in production.
 
 LINUX/OSX - in a terminal window, type the following:
 =======================================================
-    export FLASK_APP=call_ms_graph.py
+    export FLASK_APP=app.py
     export FLASK_ENV=development
     export FLASK_DEBUG=1
     export FLASK_RUN_CERT=adhoc
@@ -23,7 +26,7 @@ LINUX/OSX - in a terminal window, type the following:
 
 WINDOWS - in a command window, type the following:
 ====================================================
-    set FLASK_APP=call_ms_graph.py
+    set FLASK_APP=app.py
     set FLASK_ENV=development
     set FLASK_DEBUG=1
     set FLASK_RUN_CERT=adhoc
@@ -32,28 +35,26 @@ WINDOWS - in a command window, type the following:
 You can also use "python -m flask run" instead of "flask run"
 """
 
-def create_app(name='call_ms_graph', root_path=Path(__file__).parent, config_dict=None, aad_config_dict=None):
-    app = Flask(name, root_path=root_path)
-    app.config['ENV'] = os.environ.get('FLASK_ENV', 'development')
+def create_app(secure_client_credential=None):
+    app = Flask(__name__, root_path=Path(__file__).parent)
+    app.config.from_object(app_config) # Flask configuration
+    Session(app) # init the serverside session for the app: this is requireddue to large cookie size
+    # tell flask to render the 401 template on not-authenticated error. it is not stricly required:
+    app.register_error_handler(NotAuthenticatedError, lambda err: (render_template('auth/401.html'), err.code))
+    aad_configuration = AADConfig.parse_json('aad.config.json') # parse the aad configs
+    ## app.logger.level=logging.DEBUG ## log-level debug. potentially confidential data log level
     if app.config.get('ENV') == 'production':
-        app.logger.level=logging.INFO
-        # supply a production config here and remove this line:
-        raise ValueError('define a production config')
-    else:
-        app.config["DEBUG"] = os.environ.get('FLASK_DEBUG', 1)
-        app.logger.level=logging.DEBUG
-        app.config.from_object(dev_config)
-        
-    if config_dict is not None:
-        app.config.from_mapping(config_dict)
-    
-    Session(app) # init the serverside session for the app
-    # when a not authenticated error happens, render this template. otherwise generic page will be displayed:
-    app.register_error_handler(NotAuthenticatedError, lambda x: (render_template('auth/401.html'), x.code))
-    
+        from werkzeug.middleware.proxy_fix import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+        # TO RUN IN PRODUCTION, READ THE FOLLOWING:
+        # 1. supply a config that sets "client_credential"=null the default config contains app secrets
+        # 2. Add the secrets from a secure location, such as vault: aad_configuration.client.client_credential=secure_client_credential
+        # 3. If you are sure you want to continue, remove this line:
+        # raise NotImplementedError('define a production config')
+
+    AADConfig.sanity_check_configs(aad_configuration)
     adapter = FlaskContextAdapter(app) # ms identity web for python: instantiate the flask adapter
-    ms_identity_web = IdentityWebPython(AADConfig(file_path='aad.config.ini'), adapter) # then instantiate ms identity web for python:
-    # the auth endpoints are: sign_in, redirect, sign_out, post_sign-out, edit_profile
+    ms_identity_web = IdentityWebPython(aad_configuration, adapter) # then instantiate ms identity web for python
 
     @app.route('/')
     @app.route('/sign_in_status')
@@ -63,9 +64,9 @@ def create_app(name='call_ms_graph', root_path=Path(__file__).parent, config_dic
     @app.route('/token_details')
     @ms_identity_web.login_required # <-- developer only needs to hook up login-required endpoint like this
     def token_details():
-        app.logger.info("token_details: user is authenticated, will display token details")
+        current_app.logger.info("token_details: user is authenticated, will display token details")
         return render_template('auth/token.html')
-
+    
     @app.route("/call_ms_graph")
     @ms_identity_web.login_required
     def call_ms_graph():
@@ -80,8 +81,7 @@ def create_app(name='call_ms_graph', root_path=Path(__file__).parent, config_dic
     return app
 
 if __name__ == '__main__':
-    app=create_app()
-    # the param value in the following line creates an adhoc ssl cert and allows the app to serve HTTPS on loopback (127.0.0.1).
-    # WARNING 1: Use a real certificate in production
-    # WARNING 2: Don't use app.run in production - use a production server!
-    app.run(ssl_context='adhoc')
+    app=create_app() # this is for running flask's dev server for local testing purposes ONLY
+    app.run(ssl_context='adhoc') # create an adhoc ssl cert for HTTPS on 127.0.0.1
+
+app=create_app()
