@@ -73,9 +73,9 @@ def create_app(secure_client_credential=None):
         ms_identity_web.acquire_token_silently(scopes=['User.ReadBasic.All']) 
         # TODO : detect error type in ms-id-web, and respond accordingly automatically - e.g. interactive auth.
         # TODO : also detect insufficient privilege - i.e., user is authenticated but has not consented to the requested scope
-        results = requests.get('https://graph.microsoft.com/v1.0/users',
-                                headers={'Authorization': 'Bearer ' + ms_identity_web.id_data._access_token},
-                                ).json()
+        graph = app.config['GRAPH_ENDPOINT']
+        authZ = f'Bearer {ms_identity_web.id_data._access_token}'
+        results = requests.get(graph, headers={'Authorization': authZ}.json())
         return render_template('auth/call-graph.html', results=results)
 
     return app
