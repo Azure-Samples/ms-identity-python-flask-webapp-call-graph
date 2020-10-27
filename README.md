@@ -35,7 +35,7 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
 
 This sample demonstrates a Python Flask web app that signs in users within your own Azure Active Directory tenant using the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python).
 
-![Overview](./ReadmeFiles/sign-in.png)
+![Overview](./ReadmeFiles/topology.png)
 
 ## Scenario
 
