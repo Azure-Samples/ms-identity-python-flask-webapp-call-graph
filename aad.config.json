@@ -6,7 +6,7 @@
     },
 "client": {
     "client_id": "enter-your-client-id-here",
-    "client_credential": "enter-your-client-credential-here",
+    "client_credential": "enter-your-client-secret-here",
     "authority": "https://login.microsoftonline.com/enter-your-tenant-id-here"
     },
 "auth_request": {
