@@ -1,4 +1,4 @@
-import os, logging
+import os, logging, requests
 
 from functools import wraps
 from flask import Flask, Blueprint, session, redirect, url_for, current_app, render_template, request
@@ -70,12 +70,12 @@ def create_app(secure_client_credential=None):
     @app.route("/call_ms_graph")
     @ms_identity_web.login_required
     def call_ms_graph():
-        ms_identity_web.acquire_token_silently(scopes=['User.ReadBasic.All']) 
+        ms_identity_web.acquire_token_silently() 
         # TODO : detect error type in ms-id-web, and respond accordingly automatically - e.g. interactive auth.
         # TODO : also detect insufficient privilege - i.e., user is authenticated but has not consented to the requested scope
         graph = app.config['GRAPH_ENDPOINT']
         authZ = f'Bearer {ms_identity_web.id_data._access_token}'
-        results = requests.get(graph, headers={'Authorization': authZ}.json())
+        results = requests.get(graph, headers={'Authorization': authZ}).json()
         return render_template('auth/call-graph.html', results=results)
 
     return app
