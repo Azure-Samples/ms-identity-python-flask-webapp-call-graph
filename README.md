@@ -39,7 +39,7 @@ This sample demonstrates a Python Flask web app that signs in users within your 
 
 ## Scenario
 
-1. A `confidential client` web application uses **MSAL for Python** to sign-in a user and obtains an [Access Token](https://docs.microsoft.com/azure/active-directory/develop/access-tokens) for [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/overview) from **Azure AD**:
+1. A `confidential client` web application uses **MSAL for Python** to sign in a user and obtains an [Access Token](https://docs.microsoft.com/azure/active-directory/develop/access-tokens) for [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/overview) from **Azure AD**:
 2. The **Access Token** proves that the user is authorized to access the Microsoft Graph API endpoint as defined in the scope.
 
 
@@ -261,7 +261,7 @@ def call_ms_graph():
 - Based on the requested scopes, Azure AD presents a consent dialogue to the user upon signing in.
 - If the user consents to one or more scopes and obtains a token, the scopes-consented-to are encoded into the resulting `access_token`.
 - Note the scope requested by the application by referring to [aad.config.json](./aad.config.json). By default, this array is set to `["User.ReadBasic.All"]`.
-- This particular MS Graph API scope is for accessing the basic information of all user account in the user's tenant. The graph endpoint for accessing this info is `https://graph.microsoft.com/v1.0/users`
+- This particular MS Graph API scope is for accessing the basic information of all user accounts in the user's tenant. The graph endpoint for accessing this info is `https://graph.microsoft.com/v1.0/users`
 - Any valid requests made to this endpoint must bear an `access_token` containing scope `User.ReadBasic.All` in the Authorization header.
 
 ### Under the hood
