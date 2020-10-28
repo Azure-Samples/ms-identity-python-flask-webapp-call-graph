@@ -55,9 +55,7 @@ This sample demonstrates a Python Flask web app that signs in users and obtains 
 
 | File/folder       | Description                                |
 |-------------------|--------------------------------------------|
-|`AppCreationScripts/`| Folder contains scripts to automatically configure Azure AD app registrations|
 |`app.py` | The sample app code.                       |
-|`auth_endpoints.py`| The auth related endpoints code.           |
 |`CHANGELOG.md`     | List of changes to the sample.             |
 |`CONTRIBUTING.md`  | Guidelines for contributing to the sample. |
 |`LICENSE`          | The license for the sample.                |
