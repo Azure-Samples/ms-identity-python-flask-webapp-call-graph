@@ -221,7 +221,7 @@ Open the project in your IDE to configure the code.
 - The middle of the screen now has an option to click for **ID Token Details**: click it to see some of the ID token's decoded claims.
 - Click the **Call Graph** button to make a call to MS Graph API's `/users` endpoint and see the details of up to 5 users in your tenant.
 - You can also use the button on the top right to sign out.
-- After signing out, click this link to the [token details page](https://127.0.0.1:5000/auth/token_details) to observe that the app displays a `401: unauthorized` error instead of the ID token claims when the user is not authorized.
+- After signing out, click the link to the [token details page](https://127.0.0.1:5000/auth/token_details) to observe that the app displays a `401: unauthorized` error instead of the ID token claims when the user is not authorized.
 
 > :information_source: Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../issues) page.
 
