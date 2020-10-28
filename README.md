@@ -34,6 +34,7 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
     - [Scopes](#scopes)
     - [Under the hood](#under-the-hood)
   - [Deploy to Azure](#deploy-to-azure)
+  - [We'd love your feedback!](#wed-love-your-feedback)
   - [More information](#more-information)
   - [Community Help and Support](#community-help-and-support)
   - [Contributing](#contributing)
@@ -317,6 +318,10 @@ At a minimum, following parameters need to be provided to the MSAL for Python li
 ## Deploy to Azure
 
 Follow [this guide](https://github.com/Azure-Samples/ms-identity-python-flask-deployment) to deploy this app to **Azure App Service**.
+
+## We'd love your feedback!
+
+Were we successful in addressing your learning objective? Consider taking a moment to [share your experience with us](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR73pcsbpbxNJuZCMKN0lURpUM0dYSFlIMzdHT0o3NlRNVFpJSzcwRVMxRyQlQCN0PWcu).
 
 ## More information
 
