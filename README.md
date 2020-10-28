@@ -41,13 +41,13 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
 
 ## Overview
 
-This sample demonstrates a Python Flask web app that signs in users within your own Azure Active Directory tenant using the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python).
+This sample demonstrates a Python Flask web app that signs in users and obtains an access token for calling [Microsoft Graph](https://docs.microsoft.com/graph/overview). It uses the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python).
 
 ![Overview](./ReadmeFiles/topology.png)
 
 ## Scenario
 
-1. A Web application uses **MSAL for Python** to sign-in a user and obtains an [Access Token](https://docs.microsoft.com/azure/active-directory/develop/access-tokens) for [Microsoft Graph](https://docs.microsoft.com/graph/overview) from **Azure AD**:
+1. This Web application uses **MSAL for Python** to sign-in a user and obtains an [Access Token](https://docs.microsoft.com/azure/active-directory/develop/access-tokens) for [Microsoft Graph](https://docs.microsoft.com/graph/overview) from **Azure AD**:
 2. The **Access Token** proves that the user is authorized to access the Microsoft Graph API endpoint as defined in the scope.
 
 ## Contents
