@@ -33,6 +33,7 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
     - [Calling MS Graph](#calling-ms-graph)
     - [Scopes](#scopes)
     - [Under the hood](#under-the-hood)
+  - [Deploy to Azure](#deploy-to-azure)
   - [More information](#more-information)
   - [Community Help and Support](#community-help-and-support)
   - [Contributing](#contributing)
@@ -88,7 +89,7 @@ or download and extract the repository .zip file.
 - In Linux/OSX via the terminal:
 - 
 ```Shell
-  cd project-root-directory
+  cd project-root-directory #the folder into which you cloned the code
   python3 -m venv venv # only required if you don't have a venv already
   source venv/bin/activate
   pip install -r requirements.txt
@@ -97,7 +98,7 @@ or download and extract the repository .zip file.
 - In Windows via PowerShell:
 - 
 ```PowerShell
-  cd project-root-directory
+  cd project-root-directory #the folder into which you cloned the code
   python3 -m venv venv # only required if you don't have a venv already
   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
   . .\venv\Scripts\Activate.ps1
@@ -174,9 +175,9 @@ Open the project in your IDE to configure the code.
 > In the steps below, "ClientID" is the same as "Application ID" or "AppId".
 
 1. Open the `aad.config.json` file
-1. Find the string `default-value-enter-your-tenant-id-here` and replace the existing value with your Azure AD tenant ID.
-1. Find the string `default-value-enter-your-client-id-here` and replace the existing value with the application ID (clientId) of the `python-flask-webapp-call-graph` application copied from the Azure portal.
-1. Find the string `default-value-enter-your-client-secret-here` and replace the existing value with the key you saved during the creation of the `python-flask-webapp-call-graph` app, in the Azure portal.
+1. Find the string `enter-your-tenant-id-here` and replace the existing value with your Azure AD tenant ID.
+1. Find the string `enter-your-client-id-here` and replace the existing value with the application ID (clientId) of the `python-flask-webapp-call-graph` application copied from the Azure portal.
+1. Find the string `enter-your-client-secret-here` and replace the existing value with the key you saved during the creation of the `python-flask-webapp-call-graph` app, in the Azure portal.
 
 </details>
 
@@ -186,7 +187,7 @@ Open the project in your IDE to configure the code.
 ## Running the sample
 
 - To run the sample, open a terminal window. Navigate to the root of the project. Be sure your virtual environment with dependencies is activated ([Prerequisites](#prerequisites)). 
-- In Linux/OSX via the terminal:
+- On Linux/OSX via the terminal:
 
   ```Shell
     export FLASK_APP=app.py
@@ -196,6 +197,7 @@ Open the project in your IDE to configure the code.
     flask run
   ```
 
+- On Windows:
 
   ```PowerShell
     $env:FLASK_APP="app.py"
@@ -225,8 +227,9 @@ Open the project in your IDE to configure the code.
 
 ## About the code
 
-This sample uses the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python) to sign in a user and obtain a token for MS Graph API. It levarages the IdentityWebPython class found in the [Microsoft Identity Python Samples Common](https://github.com/azure-samples/ms-identity-python-common) repository to allow for quick app setup.
+This sample uses the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python) to sign in a user and obtain a token for MS Graph API. It levarages the IdentityWebPython class found in the [Microsoft Identity Python Samples Common](https://github.com/azure-samples/ms-identity-python-samples-common) repository to allow for quick app setup.
 
+In `app.py,` method def create_app(secure_client_credential=None):
 1. A configuration object is parsed from [aad.config.json](./aad.config.json)
 1. A FlaskAdapter is instantiated for interfacing with the Flask app
 1. The FlaskAdapter and an Azure AD configuration object are used to instantiate IdentityWebPython
@@ -238,8 +241,9 @@ This sample uses the [Microsoft Authentication Library \(MSAL\) for Python](http
     ```
 
 - These three lines of code automatically hook up all necessary endpoints for the authentication process into your Flask app under a route prefix (`/auth` by default). For example, the redirect endpoint is found at `/auth/redirect`.
-- When a user navigates to `/auth/sign_in` and completes a sign-in attempt, the resulting identity data is put into the session, which can be accessed through the flask global g object at `g.identity_context_data`.
+- When a user navigates to `/auth/sign_in` and completes a sign-in attempt, the resulting identity data is put into the session, which can be accessed through the flask global **g** object at `g.identity_context_data`.
 - When an endpoint is decorated with `@ms_identity_web.login_required`, the application only allows requests to the endpoint from authenticated (signed-in) users. If the user is not signed-in, a `401: unathorized` error is thrown, and the browser is redirected to the 401 handler.
+
     ```python
     @app.route('/a_protected_route')
     @ms_identity_web.login_required
@@ -279,16 +283,17 @@ def call_ms_graph():
 
 ### Under the hood
 
-In this sample, much of the required MSAL for Python configurations are automatically setup using utilties found in [Microsoft Identity Python Samples Common](https://github.com/azure-samples/ms-identity-python-common). For a more direct, hands-on demonstration of the sign-in and call graph process without this abstraction, please see the code within this [Python Webapp](https://github.com/azure-samples/ms-identity-python-webapp) sample.
+In this sample, much of the required MSAL for Python configurations are automatically setup using utilities found in [Microsoft Identity Python Samples Common](https://github.com/azure-samples/ms-identity-python-common). For a more direct, hands-on demonstration of the sign-in process without this abstraction, please see the code within this [Python Webapp](https://github.com/azure-samples/ms-identity-python-webapp) sample.
 
-At a minimum, following parameters need to be provided to MSAL for Python:
-  - The **Client ID** of the app
-  - The **Client Credential**, which is a requirement for Confidential Client Applications
-  - The **Azure AD Authority**, which includes the Tenant ID of the AAD application in this sample's scenario
+At a minimum, following parameters need to be provided to the MSAL for Python library:
+
+- The **Client ID** of the app
+- The **Client Credential**, which is a requirement for a Web (Confidential Client) Application.
+- The **Azure AD Authority**, which includes the Tenant ID of the AAD application in this sample's scenario.
 
 1. The first step of the sign-in process is to send a request to the `/authorize` endpoint on Azure Active Directory.
 
-1. An MSAL for Python **ConfidentialClientApplication** instance is created:
+1. An MSAL for Python **ConfidentialClientApplication** instance is created by ms_identity_web, like so:
 
     ```python
     client_instance = msal.ConfidentialClientApplication(
@@ -308,6 +313,10 @@ At a minimum, following parameters need to be provided to MSAL for Python:
     ```
 
 1. If the request is successful, MSAL for Python validates the signature and nonce of the incoming token. If these checks succeed, it returns the resulting `id_token`, `access_token` and plaintext `id_token_claims` in a dictionary. *It is the application's responsibility to store these tokens securely.*
+
+## Deploy to Azure
+
+Follow [this guide](https://github.com/Azure-Samples/ms-identity-python-flask-deployment) to deploy this app to **Azure App Service**.
 
 ## More information
 
