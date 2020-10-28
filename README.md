@@ -13,6 +13,7 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
 ---
 # A Python Flask Webapp for signing in users in your organization with the Microsoft identity platform
 
+- [A Python Flask Webapp for signing in users in your organization with the Microsoft identity platform](#a-python-flask-webapp-for-signing-in-users-in-your-organization-with-the-microsoft-identity-platform)
   - [Overview](#overview)
   - [Scenario](#scenario)
   - [Contents](#contents)
@@ -21,16 +22,21 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
     - [Step 1: Clone or download this repository](#step-1-clone-or-download-this-repository)
     - [Step 2: Install project dependencies](#step-2-install-project-dependencies)
   - [Register the sample application(s) with your Azure Active Directory tenant](#register-the-sample-applications-with-your-azure-active-directory-tenant)
+    - [Choose the Azure AD tenant where you want to create your applications](#choose-the-azure-ad-tenant-where-you-want-to-create-your-applications)
+      - [Register the webApp app (python-flask-webapp-call-graph)](#register-the-webapp-app-python-flask-webapp-call-graph)
+      - [Configure the webApp app (python-flask-webapp-call-graph) to use your app registration](#configure-the-webapp-app-python-flask-webapp-call-graph-to-use-your-app-registration)
+    - [](#)
   - [Running the sample](#running-the-sample)
   - [Explore the sample](#explore-the-sample)
   - [About the code](#about-the-code)
+    - [Calling MS Graph](#calling-ms-graph)
+    - [Scopes](#scopes)
+    - [Under the hood](#under-the-hood)
   - [More information](#more-information)
   - [Community Help and Support](#community-help-and-support)
   - [Contributing](#contributing)
   - [Code of Conduct](#code-of-conduct)
 
-<!-- ![Build badge](https://identitydivision.visualstudio.com/_apis/public/build/definitions/a7934fdd-dcde-4492-a406-7fad6ac00e17/<BuildNumber>/badge)
-// TODO: COMMENT OUT BUILD BADGE UNTIL WE FIND A PURPOSE FOR IT-->
 ## Overview
 
 This sample demonstrates a Python Flask web app that signs in users within your own Azure Active Directory tenant using the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python).
@@ -39,9 +45,8 @@ This sample demonstrates a Python Flask web app that signs in users within your 
 
 ## Scenario
 
-1. A `confidential client` web application uses **MSAL for Python** to sign in a user and obtains an [Access Token](https://docs.microsoft.com/azure/active-directory/develop/access-tokens) for [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/overview) from **Azure AD**:
+1. A Web application uses **MSAL for Python** to sign-in a user and obtains an [Access Token](https://docs.microsoft.com/azure/active-directory/develop/access-tokens) for [Microsoft Graph](https://docs.microsoft.com/graph/overview) from **Azure AD**:
 2. The **Access Token** proves that the user is authorized to access the Microsoft Graph API endpoint as defined in the scope.
-
 
 ## Contents
 
@@ -80,13 +85,16 @@ or download and extract the repository .zip file.
 3. install project dependencies
 
 - In Linux/OSX via the terminal:
+- 
 ```Shell
   cd project-root-directory
   python3 -m venv venv # only required if you don't have a venv already
   source venv/bin/activate
   pip install -r requirements.txt
 ```
+
 - In Windows via PowerShell:
+- 
 ```PowerShell
   cd project-root-directory
   python3 -m venv venv # only required if you don't have a venv already
@@ -178,6 +186,7 @@ Open the project in your IDE to configure the code.
 
 - To run the sample, open a terminal window. Navigate to the root of the project. Be sure your virtual environment with dependencies is activated ([Prerequisites](#prerequisites)). 
 - In Linux/OSX via the terminal:
+
   ```Shell
     export FLASK_APP=app.py
     export FLASK_ENV=development
@@ -185,7 +194,8 @@ Open the project in your IDE to configure the code.
     export FLASK_RUN_CERT=adhoc
     flask run
   ```
-- In Windows via PowerShell:
+
+
   ```PowerShell
     $env:FLASK_APP="app.py"
     $env:FLASK_ENV="development"
@@ -193,6 +203,7 @@ Open the project in your IDE to configure the code.
     $env:FLASK_RUN_CERT="adhoc"
     flask run
   ```
+
 - Alternatively, you may use `python -m flask run` instead of `flask run`
 - Navigate to [https://127.0.0.1:5000](https://127.0.0.1:5000) in your browser
 
@@ -218,6 +229,7 @@ This sample uses the [Microsoft Authentication Library \(MSAL\) for Python](http
 1. A configuration object is parsed from [aad.config.json](./aad.config.json)
 1. A FlaskAdapter is instantiated for interfacing with the Flask app
 1. The FlaskAdapter and an Azure AD configuration object are used to instantiate IdentityWebPython
+
     ```python
     aad_configuration = AADConfig.parse_json('aad.config.json')
     adapter = FlaskContextAdapter(app)
