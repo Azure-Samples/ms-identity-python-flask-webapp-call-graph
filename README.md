@@ -6,6 +6,7 @@ languages:
 products:
   - azure
   - azure-active-directory
+  - microsoft-identity-platform
   - ms-graph
 name: A Python Flask webapp for signing in users and calling Microsoft Graph API
 urlFragment: ms-identity-python-flask-call-graph
