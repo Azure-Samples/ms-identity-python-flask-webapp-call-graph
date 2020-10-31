@@ -26,15 +26,14 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
     - [Choose the Azure AD tenant where you want to create your applications](#choose-the-azure-ad-tenant-where-you-want-to-create-your-applications)
       - [Register the webApp app (python-flask-webapp-call-graph)](#register-the-webapp-app-python-flask-webapp-call-graph)
       - [Configure the webApp app (python-flask-webapp-call-graph) to use your app registration](#configure-the-webapp-app-python-flask-webapp-call-graph-to-use-your-app-registration)
-    - [](#)
   - [Running the sample](#running-the-sample)
+  - [We'd love your feedback!](#wed-love-your-feedback)
   - [Explore the sample](#explore-the-sample)
   - [About the code](#about-the-code)
     - [Calling MS Graph](#calling-ms-graph)
     - [Scopes](#scopes)
     - [Under the hood](#under-the-hood)
   - [Deploy to Azure](#deploy-to-azure)
-  - [We'd love your feedback!](#wed-love-your-feedback)
   - [More information](#more-information)
   - [Community Help and Support](#community-help-and-support)
   - [Contributing](#contributing)
@@ -55,7 +54,7 @@ This sample demonstrates a Python Flask web app that signs in users and obtains 
 
 | File/folder       | Description                                |
 |-------------------|--------------------------------------------|
-|`app.py` | The sample app code.                       |
+|`app.py`           | The sample app code.                       |
 |`CHANGELOG.md`     | List of changes to the sample.             |
 |`CONTRIBUTING.md`  | Guidelines for contributing to the sample. |
 |`LICENSE`          | The license for the sample.                |
@@ -65,7 +64,7 @@ This sample demonstrates a Python Flask web app that signs in users and obtains 
 - [Python 3.8](https://www.python.org/downloads/)
 - A virtual environment to install packages listed in [requirements.txt](requirements.txt)
 - An Azure Active Directory (Azure AD) tenant. For more information on how to get an Azure AD tenant, see [How to get an Azure AD tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/)
-- A user account in your own Azure AD tenant. This sample will not work with a **personal Microsoft account**. If have not yet [created a user account](https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/add-users-azure-active-directory) in your AD tenant yet, you should do so before proceeding.
+- A user account in your own Azure AD tenant. This sample will not work with a **personal Microsoft account**. If have not yet [created a user account](https://docs.microsoft.com/azure/active-directory/fundamentals/add-users-azure-active-directory) in your AD tenant yet, you should do so before proceeding.
 
 ## Setup
 
@@ -86,18 +85,18 @@ or download and extract the repository .zip file.
 3. install project dependencies
 
 - In Linux/OSX via the terminal:
-- 
+
 ```Shell
-  cd project-root-directory #the folder into which you cloned the code
+  cd <project-root-directory> #the folder into which you cloned the code
   python3 -m venv venv # only required if you don't have a venv already
   source venv/bin/activate
   pip install -r requirements.txt
 ```
 
 - In Windows via PowerShell:
-- 
+
 ```PowerShell
-  cd project-root-directory #the folder into which you cloned the code
+  cd <project-root-directory> #the folder into which you cloned the code
   python3 -m venv venv # only required if you don't have a venv already
   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
   . .\venv\Scripts\Activate.ps1
@@ -146,7 +145,6 @@ As a first step you'll need to:
 1. Sign in to the [Azure portal](https://portal.azure.com).
 1. If your account is present in more than one Azure AD tenant, select your profile at the top right corner in the menu on top of the page, and then **switch directory** to change your portal session to the desired Azure AD tenant.
 
-
 #### Register the webApp app (python-flask-webapp-call-graph)
 
 1. Navigate to the Microsoft identity platform for developers [App registrations](https://go.microsoft.com/fwlink/?linkid=2083908) page.
@@ -174,18 +172,15 @@ Open the project in your IDE to configure the code.
 > In the steps below, "ClientID" is the same as "Application ID" or "AppId".
 
 1. Open the `aad.config.json` file
-1. Find the string `enter-your-tenant-id-here` and replace the existing value with your Azure AD tenant ID.
-1. Find the string `enter-your-client-id-here` and replace the existing value with the application ID (clientId) of the `python-flask-webapp-call-graph` application copied from the Azure portal.
-1. Find the string `enter-your-client-secret-here` and replace the existing value with the key you saved during the creation of the `python-flask-webapp-call-graph` app, in the Azure portal.
+1. Find the string `{enter-your-tenant-id-here}` and replace the existing value with your Azure AD tenant ID.
+1. Find the string `{enter-your-client-id-here}` and replace the existing value with the application ID (clientId) of the `python-flask-webapp-call-graph` application copied from the Azure portal.
+1. Find the string `{enter-your-client-secret-here}` and replace the existing value with the key you saved during the creation of the `python-flask-webapp-call-graph` app, in the Azure portal.
 
 </details>
 
-### 
-
-
 ## Running the sample
 
-- To run the sample, open a terminal window. Navigate to the root of the project. Be sure your virtual environment with dependencies is activated ([Prerequisites](#prerequisites)). 
+- To run the sample, open a terminal window. Navigate to the root of the project. Be sure your virtual environment with dependencies is activated ([Prerequisites](#prerequisites)).
 - On Linux/OSX via the terminal:
 
   ```Shell
@@ -209,7 +204,13 @@ Open the project in your IDE to configure the code.
 - Alternatively, you may use `python -m flask run` instead of `flask run`
 - Navigate to [https://127.0.0.1:5000](https://127.0.0.1:5000) in your browser
 
+> You might run into an invalid certificate error on your browser as we are using `https`. If you do, you can ignore that error for running this sample's code.
+
 ![Experience](./ReadmeFiles/app.png)
+
+## We'd love your feedback!
+
+Were we successful in addressing your learning objective? Consider taking a moment to [share your experience with us](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR73pcsbpbxNJuZCMKN0lURpUM0dYSFlIMzdHT0o3NlRNVFpJSzcwRVMxRyQlQCN0PWcu).
 
 ## Explore the sample
 
@@ -218,7 +219,7 @@ Open the project in your IDE to configure the code.
 - Follow the instructions on the next page to sign in with an account in the Azure AD tenant.
 - Note the context-sensitive button now says `Sign out` and displays your username to its left.
 - The middle of the screen now has an option to click for **ID Token Details**: click it to see some of the ID token's decoded claims.
-- Click the **Call Graph** button to make a call to MS Graph API's `/users` endpoint and see the details of up to 5 users in your tenant.
+- Click the **Call Graph** button to make a call to MS Graph API's [/users](https://docs.microsoft.comgraph/api/user-list) endpoint and fetch the details of up to 5 users in your tenant.
 - You can also use the button on the top right to sign out.
 - After signing out, click the link to the [token details page](https://127.0.0.1:5000/auth/token_details) to observe that the app displays a `401: unauthorized` error instead of the ID token claims when the user is not authorized.
 
@@ -226,12 +227,13 @@ Open the project in your IDE to configure the code.
 
 ## About the code
 
-This sample uses the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python) to sign in a user and obtain a token for MS Graph API. It levarages the IdentityWebPython class found in the [Microsoft Identity Python Samples Common](https://github.com/azure-samples/ms-identity-python-samples-common) repository to allow for quick app setup.
+This sample uses the [Microsoft Authentication Library \(MSAL\) for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python) to sign in a user and obtain a token for MS Graph API. It leverages the IdentityWebPython class found in the [Microsoft Identity Python Samples Common](https://github.com/azure-samples/ms-identity-python-samples-common) repository to allow for quick app setup.
 
 In `app.py`'s `def create_app` method:
+
 1. A configuration object is parsed from [aad.config.json](./aad.config.json)
 1. A FlaskAdapter is instantiated for interfacing with the Flask app
-1. The FlaskAdapter and an Azure AD configuration object are used to instantiate IdentityWebPython
+1. The FlaskAdapter and an Azure AD configuration object are used to instantiate **IdentityWebPython**
 
     ```python
     aad_configuration = AADConfig.parse_json('aad.config.json')
@@ -241,7 +243,7 @@ In `app.py`'s `def create_app` method:
 
 - These three lines of code automatically hook up all necessary endpoints for the authentication process into your Flask app under a route prefix (`/auth` by default). For example, the redirect endpoint is found at `/auth/redirect`.
 - When a user navigates to `/auth/sign_in` and completes a sign-in attempt, the resulting identity data is put into the session, which can be accessed through the flask global **g** object at `g.identity_context_data`.
-- When an endpoint is decorated with `@ms_identity_web.login_required`, the application only allows requests to the endpoint from authenticated (signed-in) users. If the user is not signed-in, a `401: unathorized` error is thrown, and the browser is redirected to the 401 handler.
+- When an endpoint is decorated with `@ms_identity_web.login_required`, the application only allows requests to the endpoint from authenticated (signed-in) users. If the user is not signed-in, a `401: unauthorized` error is thrown, and the browser is redirected to the 401 handler.
 
     ```python
     @app.route('/a_protected_route')
@@ -249,25 +251,28 @@ In `app.py`'s `def create_app` method:
     def a_protected_route():
       return "if you can see this, you're signed in!"
     ```
+
 ### Calling MS Graph
 
 When a user navigates to the `/call_ms_graph` endpoint, the following code is executed:
+
 ```python
 @app.route("/call_ms_graph")
 @ms_identity_web.login_required
 def call_ms_graph():
-    ms_identity_web.acquire_token_silently() 
+    ms_identity_web.acquire_token_silently()
     graph = app.config['GRAPH_ENDPOINT']
     authZ = f'Bearer {ms_identity_web.id_data._access_token}'
     results = requests.get(graph, headers={'Authorization': authZ}).json()
     return render_template('auth/call-graph.html', results=results)
 ```
+
 1. `ms_identity_web.acquire_token_silently()` method leverages MSAL for Python to perform a *silent token acquisition* and stores the result in the session, also accessible via  `ms_identity_web.id_data` or `g.identity_context_data`
 
-    * A silend token acquisition either finds a valid `access_token` with the required scopes in the token cache or uses a stored `refresh_token` to get a new `access_token` from Azure AD. 
+   1. A silent token acquisition either finds a valid `access_token` with the required scopes in the token cache or uses a stored `refresh_token` to get a new `access_token` from Azure AD.
 
-    * The scopes herein are defined in the[aad.config.json](./aad.config.json) file, but can be overriden by passing a `scopes=["x","y"]` param to the `ms_identity_web.acquire_token_silently()` method.
-    
+   1. The scopes herein are defined in the [aad.config.json](./aad.config.json) file, but can be overridden by passing a `scopes=["x","y"]` param to the `ms_identity_web.acquire_token_silently()` method.
+
 2. The app then makes a request to the graph endpoint defined in [app_config.py](./app_config.py) (by default, `https://graph.microsoft.com/v1.0/users`). The request has an Authorization header that carries the user's `access_token` in the format `Bearer access_token_value_here`.
 3. The response is sent to the template for rendering.
 
@@ -316,10 +321,6 @@ At a minimum, following parameters need to be provided to the MSAL for Python li
 ## Deploy to Azure
 
 Follow [this guide](https://github.com/Azure-Samples/ms-identity-python-flask-deployment) to deploy this app to **Azure App Service**.
-
-## We'd love your feedback!
-
-Were we successful in addressing your learning objective? Consider taking a moment to [share your experience with us](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR73pcsbpbxNJuZCMKN0lURpUM0dYSFlIMzdHT0o3NlRNVFpJSzcwRVMxRyQlQCN0PWcu).
 
 ## More information
 
