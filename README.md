@@ -8,13 +8,13 @@ products:
   - azure-active-directory
   - microsoft-identity-platform
   - ms-graph
-name: A Python Flask webapp for signing in users and calling Microsoft Graph API
+name: Enable your Python Flask webapp to sign in users and call Microsoft Graph with the Microsoft identity platform
 urlFragment: ms-identity-python-flask-call-graph
-description: "This sample demonstrates a Python Flask webapp that signs in users calls the Microsoft Graph API"
+description: "This sample demonstrates a Python Flask webapp that signs in users and calls Microsoft Graph"
 ---
-# A Python Flask Webapp for signing in users in your organization with the Microsoft identity platform
+# Enable your Python Flask webapp to sign in users and call Microsoft Graph with the Microsoft identity platform
 
-- [A Python Flask Webapp for signing in users in your organization with the Microsoft identity platform](#a-python-flask-webapp-for-signing-in-users-in-your-organization-with-the-microsoft-identity-platform)
+- [Enable your Python Flask webapp to sign in users and call Microsoft Graph with the Microsoft identity platform](#enable-your-python-flask-webapp-to-sign-in-users-and-call-microsoft-graph-with-the-microsoft-identity-platform)
   - [Overview](#overview)
   - [Scenario](#scenario)
   - [Contents](#contents)
@@ -24,8 +24,8 @@ description: "This sample demonstrates a Python Flask webapp that signs in users
     - [Step 2: Install project dependencies](#step-2-install-project-dependencies)
   - [Register the sample application(s) with your Azure Active Directory tenant](#register-the-sample-applications-with-your-azure-active-directory-tenant)
     - [Choose the Azure AD tenant where you want to create your applications](#choose-the-azure-ad-tenant-where-you-want-to-create-your-applications)
-      - [Register the webApp app (python-flask-webapp-call-graph)](#register-the-webapp-app-python-flask-webapp-call-graph)
-      - [Configure the webApp app (python-flask-webapp-call-graph) to use your app registration](#configure-the-webapp-app-python-flask-webapp-call-graph-to-use-your-app-registration)
+    - [Register the webapp (python-flask-webapp-call-graph)](#register-the-webapp-python-flask-webapp-call-graph)
+    - [Configure the webapp (python-flask-webapp-call-graph) to use your app registration](#configure-the-webapp-python-flask-webapp-call-graph-to-use-your-app-registration)
   - [Running the sample](#running-the-sample)
   - [We'd love your feedback!](#wed-love-your-feedback)
   - [Explore the sample](#explore-the-sample)
@@ -54,6 +54,7 @@ This sample demonstrates a Python Flask web app that signs in users and obtains 
 
 | File/folder       | Description                                |
 |-------------------|--------------------------------------------|
+|`AppCreationScripts/`| Scripts to automatically configure Azure AD app registrations.|
 |`app.py`           | The sample app code.                       |
 |`CHANGELOG.md`     | List of changes to the sample.             |
 |`CONTRIBUTING.md`  | Guidelines for contributing to the sample. |
@@ -145,7 +146,7 @@ As a first step you'll need to:
 1. Sign in to the [Azure portal](https://portal.azure.com).
 1. If your account is present in more than one Azure AD tenant, select your profile at the top right corner in the menu on top of the page, and then **switch directory** to change your portal session to the desired Azure AD tenant.
 
-#### Register the webApp app (python-flask-webapp-call-graph)
+### Register the webapp (python-flask-webapp-call-graph)
 
 1. Navigate to the Microsoft identity platform for developers [App registrations](https://go.microsoft.com/fwlink/?linkid=2083908) page.
 1. Select **New registration**.
@@ -165,7 +166,7 @@ As a first step you'll need to:
    - The generated key value will be displayed when you click the **Add** button. Copy the generated value for use in the steps later.
    - You'll need this key later in your code's configuration files. This key value will not be displayed again, and is not retrievable by any other means, so make sure to note it from the Azure portal before navigating to any other screen or blade.
 
-#### Configure the webApp app (python-flask-webapp-call-graph) to use your app registration
+### Configure the webapp (python-flask-webapp-call-graph) to use your app registration
 
 Open the project in your IDE to configure the code.
 
@@ -204,7 +205,7 @@ Open the project in your IDE to configure the code.
 - Alternatively, you may use `python -m flask run` instead of `flask run`
 - Navigate to [https://127.0.0.1:5000](https://127.0.0.1:5000) in your browser
 
-> You might run into an invalid certificate error on your browser as we are using `https`. If you do, you can ignore that error for running this sample's code.
+> You might run into an invalid certificate error on your browser as we are using self-signed certificates for `https`. If you do, you can ignore that error while running this sample locally.
 
 ![Experience](./ReadmeFiles/app.png)
 
@@ -221,7 +222,7 @@ Were we successful in addressing your learning objective? Consider taking a mome
 - The middle of the screen now has an option to click for **ID Token Details**: click it to see some of the ID token's decoded claims.
 - Click the **Call Graph** button to make a call to MS Graph API's [/users](https://docs.microsoft.comgraph/api/user-list) endpoint and fetch the details of up to 5 users in your tenant.
 - You can also use the button on the top right to sign out.
-- After signing out, click the link to the [token details page](https://127.0.0.1:5000/auth/token_details) to observe that the app displays a `401: unauthorized` error instead of the ID token claims when the user is not authorized.
+- After signing out, click the link to `ID Token Details` to observe that the app displays a `401: unauthorized` error instead of the ID token claims when the user is not authorized.
 
 > :information_source: Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../issues) page.
 
